@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    {% block 'head' %}{% endblock 'head' %}
+</head>
+<body class="pt-16">
+    <header class="fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-blue-700 via-white to-blue-950 shadow">
+        <nav class="flex items-center justify-between p-4 lg:px-8" aria-label="Global">
+          <div class="flex lg:flex-1">
+            <a href="#" class="-m-1.5 p-1.5">
+              <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
+            </a>
+          </div>
+          <div class="flex lg:hidden">
+            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white">
+              <span class="sr-only">Open main menu</span>
+              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="ml-5 absolute left-4 flex items-center">
+            <div class="border-2 border-white text-white w-12 h-12 flex items-center justify-center font-bold text-sm">
+              <a href="">HDK</a>
+            </div>
+          </div>
+
+          <div class="ml-2 absolute right-12 flex items-center">
+            <div class="text-white font-bold text-sm relative">
+              {% if request.session.user_nickname %}
+
+                <button id="userMenuButton" class="flex items-center cursor-pointer focus:outline-none">
+                  Welcome, {{ request.session.user_nickname }}
+                  <svg class="inline w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                <div id="userDropdown" class="absolute cursor-pointer left-0 mt-2 w-48 bg-blue-50 rounded-md shadow-lg py-2 text-sm text-white hidden z-50">
+                  {% if request.session.user_id %}
+                    <a href="" class="block px-4 py-2 hover:bg-blue-200 text-white font-medium">My Informations</a>
+                    <a href="" class="block px-4 py-2 hover:bg-blue-200 text-white font-medium">My Cars</a>
+                  {% endif %}
+
+                  <form action="" method="post" class="block">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 font-medium">Log Out</button>
+                  </form>
+                </div>
+              {% else %}
+                <a href="">SIGN UP / LOG IN</a>
+              {% endif %}
+            </div>
+          </div>
+
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const button = document.getElementById('userMenuButton');
+              const dropdown = document.getElementById('userDropdown');
+
+              button.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+              });
+
+              document.addEventListener('click', function (e) {
+                if (!dropdown.classList.contains('hidden')) {
+                  dropdown.classList.add('hidden');
+                }
+              });
+
+              dropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+              });
+            });
+          </script>
+
+
+
+          <div class="hidden lg:flex lg:gap-x-12">
+            <a class="text-xl font-medium text-blue-500 tracking-wide">HELPDESK</a>
+          </div>
+          <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+
+          </div>
+        </nav>
+    
+      </header>
+
+    {% block body %}{% endblock body %}
+</body>
+<footer>
+    {% block footer %}{% endblock footer %}
+</footer>
+</html>
