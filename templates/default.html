@@ -14,43 +14,41 @@
               <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
             </a>
           </div>
-          <div class="flex lg:hidden">
-            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white">
-              <span class="sr-only">Open main menu</span>
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            </button>
-          </div>
 
           <div class="ml-5 absolute left-4 flex items-center">
             <div class="border-2 border-white text-white w-12 h-12 flex items-center justify-center font-bold text-sm">
-              <a href="">HDK</a>
+              <a href="{% url 'home' %}">HDK</a>
             </div>
           </div>
 
           <div class="ml-2 absolute right-12 flex items-center">
-            <div class="text-white font-bold text-sm relative">
-              {% if request.session.user_nickname %}
+            <div class="text-white font-bold text-sm relative flex items-center space-x-4">
+              {% if request.user.is_authenticated %}
 
-                <button id="userMenuButton" class="flex items-center cursor-pointer focus:outline-none">
-                  Welcome, {{ request.session.user_nickname }}
-                  <svg class="inline w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                <a href="" class="px-2 py-1 border border-white text-white font-semibold">
+                  + Novo Chamado
+                </a>
 
-                <div id="userDropdown" class="absolute cursor-pointer left-0 mt-2 w-48 bg-blue-50 rounded-md shadow-lg py-2 text-sm text-white hidden z-50">
-                  {% if request.session.user_id %}
-                    <a href="" class="block px-4 py-2 hover:bg-blue-200 text-white font-medium">My Informations</a>
-                    <a href="" class="block px-4 py-2 hover:bg-blue-200 text-white font-medium">My Cars</a>
-                  {% endif %}
+                <div class="relative inline-block text-left">
+                  <button id="userMenuButton" class="flex items-center cursor-pointer focus:outline-none">
+                    Bem vindo(a), {{ request.user.email }}
+                    <svg class="inline w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
 
-                  <form action="" method="post" class="block">
-                    {% csrf_token %}
-                    <button type="submit" class="cursor-pointer w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 font-medium">Log Out</button>
-                  </form>
+                  <div id="userDropdown" class="absolute hidden mt-2 w-48 bg-white rounded-md shadow-lg py-2 text-sm text-blue-500 z-50 top-full right-0">
+                    <a href="" class="block px-4 py-2 hover:bg-gray-100 text-blue-500 font-medium">Minhas informações</a>
+                    <a href="" class="block px-4 py-2 hover:bg-gray-100 text-blue-500 font-medium">Meus chamados</a>
+
+                    <form action="" method="post" class="block">
+                      {% csrf_token %}
+                      <button type="submit" class="cursor-pointer w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 font-medium">Sair</button>
+                    </form>
+                  </div>
                 </div>
+
+
               {% else %}
                 <a href="">SIGN UP / LOG IN</a>
               {% endif %}

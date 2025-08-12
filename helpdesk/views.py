@@ -4,6 +4,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserChangeForm
 
+def home(request):
+    return render(request, 'home.html')
+
 def auth_view(request):
     signup_form = CustomUserCreationForm()
     login_form = CustomAuthenticationForm(request=request)
@@ -17,14 +20,14 @@ def auth_view(request):
                 user = signup_form.save()
                 login(request, user)
                 messages.success(request, "Conta criada com sucesso.")
-                return redirect('dashboard')
+                return redirect('home')
         elif 'login_submit' in request.POST:
             login_form = CustomAuthenticationForm(request=request, data=request.POST)
             if login_form.is_valid():
                 user = login_form.get_user()
                 login(request, user)
                 messages.success(request, "Login realizado com sucesso.")
-                return redirect('dashboard')
+                return redirect('home')
             else:
                 messages.error(request, "Email ou senha inválidos.")
 
