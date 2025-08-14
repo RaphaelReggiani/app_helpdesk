@@ -15,6 +15,7 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('role', 'suporte')
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser precisa ter is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
@@ -44,4 +45,5 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
 

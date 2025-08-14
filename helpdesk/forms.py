@@ -7,9 +7,7 @@ from django.forms import ClearableFileInput
 from django.utils.translation import gettext_lazy as _
 from .models import CustomUser
 
-
 class CustomUserCreationForm(UserCreationForm):
-
     password1 = forms.CharField(
         label=_("Senha"),
         strip=False,
@@ -41,6 +39,14 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['profile_photo'].label = "Foto"
         self.fields['phone'].label = "Telefone"
         self.fields['country'].label = "País de origem"
+
+        if not kwargs.get('initial', {}).get('is_superuser', False):
+            self.fields['role'].choices = [('cliente', 'Cliente')]
+
+        self.fields['phone'].widget.attrs.update({
+            'placeholder': '(011) XXXXX-XXXX',
+            'class': 'phone-input block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-blue-400 placeholder:text-gray-900 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm'
+        })
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(label="E-mail", widget=forms.EmailInput(attrs={'autofocus': True}))
@@ -85,6 +91,9 @@ class CustomUserChangeForm(UserChangeForm):
         self.fields['phone'].label = "Telefone"
         self.fields['country'].label = "País de origem"
 
+        if not self.instance.is_superuser:
+            self.fields['role'].choices = [('cliente', 'Cliente')]
+
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         label=_("E-mail"),
@@ -123,3 +132,4 @@ class CustomSetPasswordForm(SetPasswordForm):
             'placeholder': 'Confirme a nova senha'
         }),
     )
+

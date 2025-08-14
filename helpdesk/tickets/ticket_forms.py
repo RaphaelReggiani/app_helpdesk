@@ -25,3 +25,20 @@ class TicketMessageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['message'].label = "Mensagem"
+
+class TicketUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['status', 'priority']
+        labels = {
+            'status': 'Status',
+            'priority': 'Prioridade',
+        }
+
+class AssignTicketForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['assigned_to']
+        labels = {
+            'assigned_to': 'Atribuir para'
+        }

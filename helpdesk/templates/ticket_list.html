@@ -1,0 +1,68 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block body %}
+<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
+  <div class="w-full max-w-7xl">
+
+    <h2 class="text-3xl font-semibold text-blue-600 mb-4">Meus Tickets</h2>
+
+    <div class="mt-2 mb-5 flex flex-col gap-1 w-full">
+      <hr class="border-t-5 border-blue-800">
+      <hr class="border-t-5 border-blue-100 mb-5">
+    </div>
+
+    <form method="GET" class="mt-2 flex flex-wrap gap-4 mb-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Status</label>
+        <select name="status" class="block w-full border border-blue-500 cursor-pointer rounded-md">
+          <option value="">Todos</option>
+          <option value="open" {% if request.GET.status == 'open' %}selected{% endif %}>Aberto</option>
+          <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>Em Andamento</option>
+          <option value="closed" {% if request.GET.status == 'closed' %}selected{% endif %}>Fechado</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Prioridade</label>
+        <select name="priority" class="block w-full border border-blue-500 cursor-pointer rounded-md">
+          <option value="">Todos</option>
+          <option value="low" {% if request.GET.priority == 'low' %}selected{% endif %}>Baixa</option>
+          <option value="medium" {% if request.GET.priority == 'medium' %}selected{% endif %}>Média</option>
+          <option value="high" {% if request.GET.priority == 'high' %}selected{% endif %}>Alta</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button type="submit" class="bg-blue-600 ml-2 cursor-pointer hover:bg-blue-500 text-white px-4 py-2 rounded mt-1">Filtrar</button>
+      </div>
+    </form>
+
+    <div class="mt-9 mb-9">
+      <a href="{% url 'ticket_create' %}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">Criar Novo Ticket</a>
+    </div>
+
+    <div class="grid gap-4">
+      {% for ticket in tickets %}
+        <a href="{% url 'ticket_detail' ticket.pk %}" class="block p-4 rounded-md shadow hover:shadow-lg bg-white">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-blue-600">{{ ticket.title }}</h3>
+            <span class="text-sm font-medium text-gray-600">Protocolo: #{{ ticket.protocol_number|slice:":8" }}</span>
+          </div>
+          <p class="text-gray-700 mt-1">Status: <strong>{{ ticket.get_status_display }}</strong> | Prioridade: <strong>{{ ticket.get_priority_display }}</strong></p>
+          <p class="text-gray-700 mt-1">Categoria: {{ ticket.get_category_display }}</p>
+          <p class="text-gray-500 text-sm mt-1">Criado por: {{ ticket.created_by.email }} em {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
+        </a>
+      {% empty %}
+        <p class="text-gray-600">Nenhum ticket encontrado.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock body %}
+
+{% block footer %}
+<footer class="bg-blue-800 text-white text-center py-4">
+  © 2025 HELPDESK - All rights reserved.
+</footer>
+{% endblock footer %}
+

@@ -37,7 +37,11 @@
         {% for field in signup_form %}
             <label for="{{ field.id_for_label }}" class="block mt-4 text-sm font-medium text-blue-600">{{ field.label }}</label>
             <div class="mt-2">
-                {{ field|add_class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-blue-400 placeholder:text-gray-900 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm" }}
+                {% if field.name == 'phone' %}
+                    {{ field|add_class:"phone-input block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-blue-400 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm" }}
+                {% else %}
+                    {{ field|add_class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-blue-400 placeholder:text-gray-900 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm" }}
+                {% endif %}
                 {% if field.help_text %}
                     <small class="text-blue-400">{{ field.help_text|safe }}</small>
                 {% endif %}
@@ -92,6 +96,27 @@
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $('.phone-input').inputmask({
+    mask: '(999) 99999-9999',
+    placeholder: '(XXX) XXXXX-XXXX',
+    showMaskOnHover: false,
+    showMaskOnFocus: true,
+    clearMaskOnLostFocus: false,
+    autoUnmask: false,
+    jitMasking: true,
+    onBeforeMask: function (value, opts) {
+      $(this).addClass('phone-input');
+      return value;
+    }
+  });
+});
+</script>
+
 {% endblock body %}
 
 {% block footer %}
@@ -99,6 +124,7 @@
   © 2025 HELPDESK - All rights reserved.
 </footer>
 {% endblock footer %}
+
 
 
 

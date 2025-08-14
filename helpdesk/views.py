@@ -16,7 +16,9 @@ def auth_view(request):
             signup_form = CustomUserCreationForm(request.POST, request.FILES)
             signup_submitted = True
             if signup_form.is_valid():
-                user = signup_form.save()
+                user = signup_form.save(commit=False)
+                user.role = 'cliente'  # força role = cliente para cadastro público
+                user.save()
                 login(request, user)
                 messages.success(request, "Conta criada com sucesso.")
                 return redirect('home')
@@ -46,6 +48,8 @@ def profile_view(request):
     if request.method == 'POST':
         edit_form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if edit_form.is_valid():
+            if not request.user.is_staff:
+                edit_form.instance.role = 'cliente'
             edit_form.save()
             messages.success(request, "Perfil atualizado com sucesso.")
             return redirect('profile')
@@ -53,6 +57,7 @@ def profile_view(request):
         edit_form = CustomUserChangeForm(instance=request.user)
 
     return render(request, 'profile.html', {'edit_form': edit_form})
+
 
 
 
