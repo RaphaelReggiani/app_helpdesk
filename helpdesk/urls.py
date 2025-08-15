@@ -14,6 +14,7 @@ urlpatterns = [
     path('login/', views.auth_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.profile_view, name='profile'),
+    path('staff_user_create/', views.staff_user_create, name='staff_user_create'),
 
     # Reset de senha
 

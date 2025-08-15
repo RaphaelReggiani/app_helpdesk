@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserChangeForm
+
 
 def home(request):
     return render(request, 'home.html')
@@ -17,7 +19,7 @@ def auth_view(request):
             signup_submitted = True
             if signup_form.is_valid():
                 user = signup_form.save(commit=False)
-                user.role = 'cliente'  # força role = cliente para cadastro público
+                user.role = 'cliente'
                 user.save()
                 login(request, user)
                 messages.success(request, "Conta criada com sucesso.")
@@ -57,6 +59,21 @@ def profile_view(request):
         edit_form = CustomUserChangeForm(instance=request.user)
 
     return render(request, 'profile.html', {'edit_form': edit_form})
+
+@user_passes_test(lambda u: u.is_staff)
+def staff_user_create(request):
+    if request.method == 'POST':
+        signup_form = CustomUserCreationForm(request.POST, request.FILES, request_user=request.user)
+        if signup_form.is_valid():
+            signup_form.save()
+            messages.success(request, "Usuário criado com sucesso.")
+            return redirect('staff_user_create')
+        else:
+            messages.error(request, "Erro ao criar usuário. Verifique os campos.")
+    else:
+        signup_form = CustomUserCreationForm(request_user=request.user)
+
+    return render(request, 'staff_user_create.html', {'signup_form': signup_form})
 
 
 

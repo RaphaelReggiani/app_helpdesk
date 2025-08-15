@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
-  <div class="max-w-5xl mx-auto py-1">
+  <div class="max-w-5xl border-3 rounded-lg border-blue-500 mx-auto px-8 md:px-16 py-6">
 
     <h2 class="text-2xl font-semibold text-blue-600 mb-4">Ticket: {{ ticket.title }}</h2>
     <p class="text-gray-700 mb-2"><strong>Protocolo:</strong> {{ ticket.protocol_number }}</p>
@@ -26,7 +26,7 @@
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label class="block mb-1 font-medium text-gray-700">Status</label>
-            <select name="status" class="block w-full rounded-md border-gray-300">
+            <select name="status" class="block w-full border border-blue-500 rounded-md">
               <option value="open" {% if ticket.status == 'open' %}selected{% endif %}>Aberto</option>
               <option value="in_progress" {% if ticket.status == 'in_progress' %}selected{% endif %}>Em Andamento</option>
               <option value="closed" {% if ticket.status == 'closed' %}selected{% endif %}>Fechado</option>
@@ -34,14 +34,14 @@
           </div>
           <div>
             <label class="block mb-1 font-medium text-gray-700">Prioridade</label>
-            <select name="priority" class="block w-full rounded-md border-gray-300">
+            <select name="priority" class="block w-full border border-blue-500 rounded-md">
               <option value="low" {% if ticket.priority == 'low' %}selected{% endif %}>Baixa</option>
               <option value="medium" {% if ticket.priority == 'medium' %}selected{% endif %}>Média</option>
               <option value="high" {% if ticket.priority == 'high' %}selected{% endif %}>Alta</option>
             </select>
           </div>
         </div>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded" >Atualizar Ticket</button>
+        <button type="submit" class="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded">Atualizar Ticket</button>
       </form>
 
       <form method="POST" class="mb-6">
@@ -49,14 +49,14 @@
         <input type="hidden" name="assign_ticket">
         <div class="mb-4">
           <label class="block mb-1 font-medium text-gray-700">Atribuir a:</label>
-          <select name="assigned_to" class="block w-full rounded-md border-gray-300">
+          <select name="assigned_to" class="block w-full border border-blue-500 rounded-md">
             <option value="">-- Selecionar staff --</option>
             {% for staff in staff_users %}
               <option value="{{ staff.id }}" {% if ticket.assigned_to and ticket.assigned_to.id == staff.id %}selected{% endif %}>{{ staff.email }}</option>
             {% endfor %}
           </select>
         </div>
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Atribuir Ticket</button>
+        <button type="submit" class="bg-green-600 cursor-pointer text-white px-4 py-2 rounded">Atribuir Ticket</button>
       </form>
     {% endif %}
 
@@ -92,4 +92,5 @@
   © 2025 HELPDESK - All rights reserved.
 </footer>
 {% endblock footer %}
+
 

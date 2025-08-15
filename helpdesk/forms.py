@@ -33,14 +33,16 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['email', 'role', 'phone', 'country', 'profile_photo']
 
     def __init__(self, *args, **kwargs):
+        self.request_user = kwargs.pop('request_user', None)
         super().__init__(*args, **kwargs)
+
         self.fields['email'].label = "E-mail"
         self.fields['role'].label = "Perfil"
         self.fields['profile_photo'].label = "Foto"
         self.fields['phone'].label = "Telefone"
         self.fields['country'].label = "País de origem"
 
-        if not kwargs.get('initial', {}).get('is_superuser', False):
+        if not self.request_user or not self.request_user.is_staff:
             self.fields['role'].choices = [('cliente', 'Cliente')]
 
         self.fields['phone'].widget.attrs.update({

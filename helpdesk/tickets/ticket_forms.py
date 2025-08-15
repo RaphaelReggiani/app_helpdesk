@@ -19,7 +19,7 @@ class TicketMessageForm(forms.ModelForm):
         model = TicketMessage
         fields = ['message']
         widgets = {
-            'message': forms.Textarea(attrs={'rows': 3, 'class': 'block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-blue-400 focus:outline-2 focus:outline-blue-600 sm:text-sm'})
+            'message': forms.Textarea(attrs={'rows': 3, 'class': 'mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-blue-400 focus:outline-2 focus:outline-blue-600 sm:text-sm'})
         }
 
     def __init__(self, *args, **kwargs):

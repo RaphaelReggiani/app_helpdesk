@@ -23,6 +23,7 @@ def ticket_list(request):
 
     return render(request, 'ticket_list.html', {'tickets': tickets})
 
+
 @login_required
 def ticket_detail(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
@@ -34,14 +35,18 @@ def ticket_detail(request, pk):
     msg_form = TicketMessageForm()
 
     if request.method == 'POST':
-        if request.user.role == 'suporte' and 'update_ticket' in request.POST:
-            ticket.status = request.POST.get('status', ticket.status)
-            ticket.priority = request.POST.get('priority', ticket.priority)
-            assigned_id = request.POST.get('assigned_to')
-            if assigned_id:
-                ticket.assigned_to = User.objects.filter(id=assigned_id, role='suporte').first()
-            else:
-                ticket.assigned_to = None
+        if request.user.role == 'suporte' and ('update_ticket' in request.POST or 'assign_ticket' in request.POST):
+            if 'update_ticket' in request.POST:
+                ticket.status = request.POST.get('status', ticket.status)
+                ticket.priority = request.POST.get('priority', ticket.priority)
+
+            if 'assign_ticket' in request.POST:
+                assigned_id = request.POST.get('assigned_to')
+                if assigned_id:
+                    ticket.assigned_to = User.objects.filter(id=assigned_id, role='suporte').first()
+                else:
+                    ticket.assigned_to = None
+
             ticket.save()
             messages.success(request, "Ticket atualizado com sucesso!")
             return redirect('ticket_detail', pk=ticket.pk)
@@ -88,6 +93,22 @@ def ticket_create(request):
         form = TicketForm()
 
     return render(request, 'ticket_form.html', {'form': form})
+
+@login_required
+def tickets_staff(request):
+    if request.user.role == 'suporte':
+        tickets = Ticket.objects.all()
+    else:
+        return redirect('home')
+
+    status_filter = request.GET.get('status')
+    priority_filter = request.GET.get('priority')
+    if status_filter:
+        tickets = tickets.filter(status=status_filter)
+    if priority_filter:
+        tickets = tickets.filter(priority=priority_filter)
+
+    return render(request, 'tickets_staff.html', {'tickets': tickets})
 
 
 
