@@ -7,7 +7,7 @@ from .ticket_forms import TicketForm, TicketMessageForm
 
 User = get_user_model()
 
-@login_required
+@login_required(login_url='home')
 def ticket_list(request):
     if request.user.role == 'suporte':
         tickets = Ticket.objects.all()
@@ -24,7 +24,7 @@ def ticket_list(request):
     return render(request, 'ticket_list.html', {'tickets': tickets})
 
 
-@login_required
+@login_required(login_url='home')
 def ticket_detail(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
 
@@ -77,7 +77,7 @@ def ticket_detail(request, pk):
         }
     )
 
-@login_required
+@login_required(login_url='home')
 def ticket_create(request):
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
@@ -94,7 +94,7 @@ def ticket_create(request):
 
     return render(request, 'ticket_form.html', {'form': form})
 
-@login_required
+@login_required(login_url='home')
 def tickets_staff(request):
     if request.user.role == 'suporte':
         tickets = Ticket.objects.all()

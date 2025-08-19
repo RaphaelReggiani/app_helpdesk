@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
+<div class="min-h-screen pt-24 flex items-center justify-center">
   <div class="w-full max-w-7xl">
 
     <h2 class="text-3xl font-semibold text-blue-600 mb-4">Meus Tickets</h2>
@@ -15,7 +15,7 @@
     <form method="GET" class="mt-2 flex flex-wrap gap-4 mb-6">
       <div>
         <label class="block text-sm font-medium text-gray-700">Status</label>
-        <select name="status" class="block w-full border border-blue-500 cursor-pointer rounded-md">
+        <select name="status" class="block w-full border border-blue-500 bg-white cursor-pointer rounded-md">
           <option value="">Todos</option>
           <option value="open" {% if request.GET.status == 'open' %}selected{% endif %}>Aberto</option>
           <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>Em Andamento</option>
@@ -24,7 +24,7 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700">Prioridade</label>
-        <select name="priority" class="block w-full border border-blue-500 cursor-pointer rounded-md">
+        <select name="priority" class="block w-full border border-blue-500 bg-white cursor-pointer rounded-md">
           <option value="">Todos</option>
           <option value="low" {% if request.GET.priority == 'low' %}selected{% endif %}>Baixa</option>
           <option value="medium" {% if request.GET.priority == 'medium' %}selected{% endif %}>Média</option>
@@ -59,10 +59,4 @@
   </div>
 </div>
 {% endblock body %}
-
-{% block footer %}
-<footer class="bg-blue-800 text-white text-center py-4">
-  © 2025 HELPDESK - All rights reserved.
-</footer>
-{% endblock footer %}
 

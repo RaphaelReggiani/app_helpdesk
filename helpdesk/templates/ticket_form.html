@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
+<div class="min-h-screen pt-24 flex items-center justify-center">
   <div class="w-full max-w-2xl bg-white p-8 rounded-lg shadow-md">
     <h2 class="text-3xl font-semibold text-blue-600 mb-6">Criar Novo Ticket</h2>
 
@@ -22,7 +22,7 @@
       {% for field in form %}
         <div class="mb-4">
           <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-          {{ field|add_class:"block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-blue-400 focus:outline-2 focus:outline-blue-600 sm:text-sm" }}
+          {{ field|add_class:"block w-full mt-2 rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-blue-400 focus:outline-2 focus:outline-blue-600 sm:text-sm" }}
           {% if field.help_text %}
             <small class="text-gray-500">{{ field.help_text }}</small>
           {% endif %}
@@ -39,11 +39,5 @@
   </div>
 </div>
 {% endblock body %}
-
-{% block footer %}
-<footer class="bg-blue-800 text-white text-center py-4">
-  © 2025 HELPDESK - All rights reserved.
-</footer>
-{% endblock footer %}
 
 

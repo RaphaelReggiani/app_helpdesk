@@ -3,7 +3,7 @@ from . import views, password_views
 
 urlpatterns = [
 
-    path('tickets/', include('helpdesk.tickets.urls')),
+    path('tickets/', include('helpdesk.tickets.ticket_urls')),
 
     # HOME
 

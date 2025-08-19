@@ -4,17 +4,17 @@
 
 {% block body %}
 
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
+<div class="min-h-screen flex pt-24 items-center justify-center">
 
   <div class="mx-auto grid max-w-5xl items-center">
 
     <div class="max-w-3xl">
 
-        <h2 class="text-pretty text-3xl font-semibold uppercase tracking-tight text-blue-400 sm:text-4xl">Atualizar informações</h2>
+        <h2 class="text-pretty text-3xl font-semibold uppercase tracking-tight text-blue-900 sm:text-4xl">Atualizar informações</h2>
 
         <div class="mt-9 mb-5 flex flex-col gap-1 w-full">
             <hr class="border-t-5 border-blue-800">
-            <hr class="border-t-5 border-blue-100">
+            <hr class="border-t-5 border-white">
         </div>
         <a class="block text-pretty text-4xl font-semibold tracking-tight text-blue-600 sm:text-3xl mb-1">
             {{ request.user.email }}<br>
@@ -34,7 +34,7 @@
         {% csrf_token %}
 
         {% for field in edit_form %}
-            <label for="{{ field.id_for_label }}" class="block mt-4 text-sm font-medium text-blue-600">{{ field.label }}</label>
+            <label for="{{ field.id_for_label }}" class="block mt-4 text-sm font-medium text-blue-900">{{ field.label }}</label>
             <div class="mt-2">
                 {{ field|add_class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-blue-400 placeholder:text-gray-900 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm" }}
                 {% if field.help_text %}
@@ -55,11 +55,5 @@
 </div>
 
 {% endblock body %}
-
-{% block footer %}
-<footer class="bg-blue-800 text-white text-center py-4">
-  © 2025 HELPDESK - All rights reserved.
-</footer>
-{% endblock footer %}
 
 

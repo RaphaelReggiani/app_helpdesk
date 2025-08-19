@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
-  <div class="max-w-5xl border-3 rounded-lg border-blue-500 mx-auto px-8 md:px-16 py-6">
+<div class="min-h-screen pt-24 flex items-center justify-center">
+  <div class="max-w-5xl border-3 mb-12 rounded-lg border-blue-500 bg-white mx-auto px-8 md:px-16 py-6">
 
     <h2 class="text-2xl font-semibold text-blue-600 mb-4">Ticket: {{ ticket.title }}</h2>
     <p class="text-gray-700 mb-2"><strong>Protocolo:</strong> {{ ticket.protocol_number }}</p>
-    <p class="text-gray-700 mb-2"><strong>Status:</strong> {{ ticket.status|capfirst }}</p>
-    <p class="text-gray-700 mb-2"><strong>Prioridade:</strong> {{ ticket.priority|capfirst }}</p>
-    <p class="text-gray-700 mb-2"><strong>Categoria:</strong> {{ ticket.category|capfirst }}</p>
+    <p class="text-gray-700 mb-2"><strong>Status:</strong> {{ ticket.get_status_display|capfirst }}</p>
+    <p class="text-gray-700 mb-2"><strong>Prioridade:</strong> {{ ticket.get_priority_display|capfirst }}</p>
+    <p class="text-gray-700 mb-2"><strong>Categoria:</strong> {{ ticket.get_category_display|capfirst }}</p>
     <p class="text-gray-700 mb-4"><strong>Criado por:</strong> {{ ticket.created_by.email }}</p>
     {% if ticket.assigned_to %}
       <p class="text-gray-700 mb-4"><strong>Atribuído a:</strong> {{ ticket.assigned_to.email }}</p>
@@ -19,7 +19,7 @@
       <p class="mb-4"><a href="{{ ticket.attachment.url }}" class="text-blue-600 hover:underline">Download do anexo</a></p>
     {% endif %}
 
-    {% if user.is_staff %}
+    {% if request.user.role == 'suporte' %}
       <form method="POST" class="mb-6">
         {% csrf_token %}
         <input type="hidden" name="update_ticket">
@@ -86,11 +86,5 @@
   </div>
 </div>
 {% endblock %}
-
-{% block footer %}
-<footer class="bg-blue-800 text-white text-center py-4">
-  © 2025 HELPDESK - All rights reserved.
-</footer>
-{% endblock footer %}
 
 

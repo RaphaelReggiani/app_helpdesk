@@ -42,8 +42,19 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['phone'].label = "Telefone"
         self.fields['country'].label = "País de origem"
 
-        if not self.request_user or not self.request_user.is_staff:
+        if not self.request_user or self.request_user.role not in ['suporte', 'superadm']:
             self.fields['role'].choices = [('cliente', 'Cliente')]
+        elif self.request_user.role == 'suporte':
+            self.fields['role'].choices = [
+                ('cliente', 'Cliente'),
+                ('suporte', 'Suporte'),
+            ]
+        elif self.request_user.role == 'superadm':
+            self.fields['role'].choices = [
+                ('cliente', 'Cliente'),
+                ('suporte', 'Suporte'),
+                ('superadm', 'Super Administrador'),
+            ]
 
         self.fields['phone'].widget.attrs.update({
             'placeholder': '(011) XXXXX-XXXX',
@@ -87,14 +98,29 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ['email', 'role', 'phone', 'country', 'profile_photo']
 
     def __init__(self, *args, **kwargs):
+        request_user = kwargs.pop('request_user', None)
         super().__init__(*args, **kwargs)
         self.fields['email'].label = "E-mail"
         self.fields['role'].label = "Perfil"
         self.fields['phone'].label = "Telefone"
         self.fields['country'].label = "País de origem"
 
-        if not self.instance.is_superuser:
-            self.fields['role'].choices = [('cliente', 'Cliente')]
+        if request_user:
+            if request_user.role == 'superadm':
+                self.fields['role'].choices = [
+                    ('cliente', 'Cliente'),
+                    ('suporte', 'Suporte'),
+                    ('superadm', 'Super Administrador')
+                ]
+            elif request_user.role == 'suporte':
+                self.fields['role'].choices = [
+                    ('cliente', 'Cliente'),
+                    ('suporte', 'Suporte')
+                ]
+            else:
+                self.fields['role'].choices = [
+                    ('cliente', 'Cliente')
+                ]
 
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(

@@ -4,31 +4,41 @@
 
 {% block body %}
 
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static 'images/car_image_carsdb.jpg' %}'); background-color: rgba(255, 255, 255, 0.65); background-size: cover; background-blend-mode: overlay;">
-  <div class="max-w-5xl w-full text-center space-y-12">
+<div class="min-h-screen pt-24 flex items-center justify-center">
+  <div class="max-w-5xl w-full text-center space-y-1">
 
-    <div class="border-5 border-blue-900 p-12 inline-block">
-        <h1 class="text-7xl font-extrabold tracking-widest text-blue-900 select-none">
+    <div class="border-5 border-blue-900 p-12 bg-blue-50 inline-block">
+        <h1 class="text-7xl font-extrabold tracking-[.5em] text-blue-900 select-none">
             H D K
         </h1>
     </div>
 
-    <div class="mt-12 flex justify-center gap-12">
-        <div class="border-2 border-blue-900 p-2 inline-block">
-            <form method="get" action="{% url 'login' %}">
-            <button type="submit" class="text-blue-700 cursor-pointer font-semibold text-lg focus:outline-none">
-                CADASTRAR
-            </button>
-            </form>
-        </div>
+    <div class="mt-12 flex flex-col sm:flex-row justify-center gap-6 sm:gap-12">
+        {% if not user.is_authenticated %}
+            <div class="flex flex-col items-center justify-center gap-4">
+                <h2 class="text-2xl font-extrabold text-blue-900 select-none text-center">
+                    Cadastre-se para utilizar as funcionalidades do site:
+                </h2>
 
-        <div class="border-2 border-blue-900 p-2 inline-block">
-            <form method="get" action="{% url 'ticket_create' %}">
-            <button type="submit" class="text-blue-700 cursor-pointer font-semibold text-lg focus:outline-none">
-                + NOVO TICKET
-            </button>
-            </form>
-        </div>
+                <div class="p-2 border-2 border-blue-900 bg-blue-50 inline-block hover:bg-white rounded-xl shadow-md transition">
+                    <form method="get" action="{% url 'login' %}">
+                        <button type="submit" class="text-blue-700 cursor-pointer font-semibold text-lg focus:outline-none">
+                            CADASTRAR
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if user.is_authenticated %}
+            <div class="p-2 border-2 border-blue-900 bg-blue-50 inline-block hover:bg-white rounded-xl shadow-md transition">
+                <form method="get" action="{% url 'ticket_create' %}">
+                <button type="submit" class="text-blue-700 cursor-pointer font-semibold text-lg focus:outline-none">
+                    + NOVO TICKET
+                </button>
+                </form>
+            </div>
+        {% endif %}
     </div>
 
   </div>
@@ -36,8 +46,3 @@
 
 {% endblock body %}
 
-{% block footer %}
-<footer class="bg-blue-800 text-white text-center py-4">
-  © 2025 HELPDESK - All rights reserved.
-</footer>
-{% endblock footer %}
