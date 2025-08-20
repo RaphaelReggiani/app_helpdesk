@@ -1,0 +1,65 @@
+# ======================
+# Django / Python
+# ======================
+
+# Banco de dados local
+db.sqlite3
+
+# Pastas de migrações (exceto __init__.py)
+*/migrations/
+!*/migrations/__init__.py
+
+# Arquivos compilados do Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+
+# Virtualenvs
+venv/
+env/
+ENV/
+.venv/
+
+# ======================
+# Arquivos de mídia e uploads
+# ======================
+media/
+uploads/
+
+# (⚠️ readme_assets NÃO está aqui para que suas imagens apareçam no README)
+
+# ======================
+# Configurações e cache
+# ======================
+*.log
+*.pot
+*.pyc
+*.mo
+*.swp
+*.DS_Store
+*.idea/
+.vscode/
+*.sqlite3
+*.coverage
+*.tox/
+.coverage.*
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+pytest_cache/
+
+# ======================
+# Arquivos sensíveis
+# ======================
+*.env
+.env.*
+
